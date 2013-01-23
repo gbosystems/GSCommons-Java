@@ -1,7 +1,6 @@
 package com.gbosystems.utilities;
 
 import java.io.UnsupportedEncodingException;
-import java.nio.ByteBuffer;
 
 /**
  * A class for various data conversion methods.
@@ -58,7 +57,7 @@ public class GSData {
     }
     
     /**
-     * Converts a String to a byte array using the default character set
+     * Converts a String to a byte array using the default character set.
      * 
      * @param input a String containing text to convert
      * @return byte array containing encoded text
@@ -69,7 +68,7 @@ public class GSData {
     }
 	
     /**
-     * Converts a String to a byte array using the specified character set
+     * Converts a String to a byte array using the specified character set.
      * 
      * @param input input a String containing text to convert
      * @param charSet character set (CHAR_SET -or- AUX_CHAR_SET)
@@ -163,18 +162,31 @@ public class GSData {
     /**
      * Converts a 4 byte wide section of a byte array to an (32-bit) integer.
      * 
-     * @param array input array
+     * @param data input array
      * @param start start of integer
      * @return the integer result of the conversion
      */
-    static public int byteArraySectionToInt(byte[] array, int start){
+    static public int byteArraySectionToInt(byte[] data, int start){
     	
-        ByteBuffer bb = ByteBuffer.allocate(4);
-        if (array.length > (start)){ bb.put((byte) array[start]); }
-        if (array.length > (start + 1)) { bb.put((byte) array[start + 1]); }
-        if (array.length > (start + 2)) { bb.put((byte) array[start + 2]); }
-        if (array.length > (start + 3)) { bb.put((byte) array[start + 3]); }
-        return bb.getInt(0);
+        int result = 0;
+        
+        if (data.length > (start)){
+            result ^= (data[start] & 0xFF);
+        }
+        
+        if (data.length > (start + 1)) { 
+            result ^= ((data[start + 1] & 0xFF) << 8);
+        }
+        
+        if (data.length > (start + 2)) { 
+            result ^= ((data[start + 2] & 0xFF) << 16);
+        }
+        
+        if (data.length > (start + 3)) { 
+            result ^= ((data[start + 3] & 0xFF) << 24);
+        }
+        
+        return result;
     }
 	
 }
