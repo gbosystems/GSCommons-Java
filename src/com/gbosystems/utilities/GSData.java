@@ -170,20 +170,20 @@ public class GSData {
     	
         int result = 0;
         
-        if (data.length > (start)){
-            result ^= (data[start] & 0xFF);
+        if (data.length > (start + 3)) {
+            result ^= ((data[start + 3] & 0xFF));
         }
         
-        if (data.length > (start + 1)) { 
-            result ^= ((data[start + 1] & 0xFF) << 8);
+        if (data.length > (start + 2)) {
+            result ^= ((data[start + 2] & 0xFF) << 8);
         }
         
-        if (data.length > (start + 2)) { 
-            result ^= ((data[start + 2] & 0xFF) << 16);
+        if (data.length > (start + 1)) {
+            result ^= ((data[start + 1] & 0xFF) << 16);
         }
         
-        if (data.length > (start + 3)) { 
-            result ^= ((data[start + 3] & 0xFF) << 24);
+        if (data.length > start) {
+            result ^= ((data[start] & 0xFF) << 24);
         }
         
         return result;
